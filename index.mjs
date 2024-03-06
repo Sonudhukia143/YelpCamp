@@ -3,8 +3,8 @@ import path from 'path';
 import { dirname } from 'path';
 import mongoose from 'mongoose';
 import methodOverride from 'method-override';
-import {Campground } from './models/campground.mjs';
-import { fileURLToPath } from 'url';;
+import {Campground,forValidation } from './models/campground.mjs';
+import { fileURLToPath } from 'url';
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp')
 .then(() => {
@@ -23,20 +23,25 @@ app.set('views', path.join(__dirname, 'views'))
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-
+app.use('/public', express.static(path.join(__dirname, 'public')))
 
 app.get('/', (req, res) => {
     res.render('home')
 });
+
 app.get('/campgrounds', async (req, res) => {
     const campgrounds = await Campground.find({});
     res.render('campgrounds/index', { campgrounds })
 });
+
 app.get('/campgrounds/new', (req, res) => {
     res.render('campgrounds/new');
 })
 
 app.post('/campgrounds', async (req, res) => {
+    const{error} = forValidation(req.body.campground);
+    console.log(error);
+
     const campground = new Campground(req.body.campground);
     await campground.save();
     res.redirect(`/campgrounds/${campground._id}`)
