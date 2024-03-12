@@ -1,7 +1,7 @@
 <%- include('../partials/header.ejs'); %>
 
     <div class="row">
-        <div class="col-6 offset-3">
+        <div class="col-6 mt-3">
             <div class="card mb-3">
                 <img src="<%= campground.image %>" class="card-img-top" alt="...">
                 <div class="card-body">
@@ -31,6 +31,35 @@
                 </div>
             </div>
         </div>
+        <div class="col-6">
+            <div class="col-6">
+                <h2>Leave A Review</h2>
+            </div>
+            <form method="POST" action="/campgrounds/<%= campground._id %>/reviews" class="mb-3 needs-validation" novalidate>
+                <div class="col-6 mb-3">
+                    <label class="form-label" for="rating">Rating</label>
+                    <input type="range" name="rating" min="1" max="5" id="rating" class="form-range">
+                </div>
+                <div class="col-6 mb-3">
+                    <label class="form-label" for="body">Review</label>
+                    <textarea class="form-control" name="review" rows="3" columns="30" required></textarea>
+                    <button class="btn btn-success mt-3">Submit</button>
+                </div>
+            </form>
+            <% for(let review of campground.review ) { %>
+                <div class="card mb-3 col-6">
+                    <div class="card-body">
+                        <h5 class="card-title">Rating: <%= review.rating %>
+                        </h5>
+                        <p>Review: <%= review.review %>
+                        </p>
+                        <form action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST" class="mb-3">
+                            <button class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            <% } %>
     </div>
-
-    <%- include('../partials/footer.ejs'); %>
+    </div>
+</div>
+        <%- include('../partials/footer.ejs'); %>

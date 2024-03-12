@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 import joi from 'joi';
+import { Review } from "./review.mjs";
 
 const Joi = joi;
 
@@ -8,8 +9,22 @@ const campgroundSchema = new mongoose.Schema({
     image: String,
     price: Number,
     description: String,
-    location: String
+    location: String,
+    review:[
+     {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review'
+     }
+    ]
 });
+
+campgroundSchema.post('findOneAndDelete', async function (data) {
+    if(data.review.length) {
+        const res = await Review.deleteMany({ _id:{ $in: data.review }});
+    }
+});
+
+
 const Campground = new mongoose.model('Campground', campgroundSchema);
 
 function forValidation(campground) {
@@ -23,4 +38,4 @@ function forValidation(campground) {
     return Joi.object(schema).validate(campground);
 }
 
-export{Campground , forValidation };
+export{Campground , forValidation};

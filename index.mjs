@@ -7,6 +7,7 @@ import {Campground,forValidation } from './models/campground.mjs';
 import { fileURLToPath } from 'url';
 import { error } from './middlewares/error.mjs';
 import { ForEachRoute } from './middlewares/forEachRoute.mjs';
+import { Review, forValidationReview } from './models/review.mjs';
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp')
 .then(() => {
@@ -55,8 +56,14 @@ app.post('/campgrounds',ForEachRoute(async (req, res) => {
 }));
 
 app.get('/campgrounds/:id',ForEachRoute(async (req, res,) => {
-    const campground = await Campground.findById(req.params.id);
-    res.render('campgrounds/show', { campground });
+    const campground = await Campground.findById(req.params.id).populate({
+        path: 'review',
+        populate: {
+            path:'review',
+            path: 'rating'
+        }
+    });    
+    res.render('campgrounds/show', { campground});
 }));
 
 app.get('/campgrounds/:id/edit',ForEachRoute(async (req, res) => {
@@ -77,6 +84,39 @@ app.delete('/campgrounds/:id',ForEachRoute(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
     res.redirect('/campgrounds');
+}));
+
+app.post('/campgrounds/:id/reviews',ForEachRoute ( async (req ,res) => {
+    try{
+        const { id } = req.params;
+        const campground = await Campground.findById(id);
+    
+        const review = new Review(req.body); 
+          
+        /*const{error} = forValidationReview(review);
+        if(error) return console.log("ERROR IN VALIDATION OF REVIEW",error);*/
+    
+        await review.save();
+    
+        campground.review.push(review);
+        await campground.save();
+    
+        res.redirect(`/campgrounds/${id}`);
+    }catch(err){
+        console.log("OOPS ERROR",err);
+    }
+}));
+
+app.delete('/campgrounds/:id/reviews/:reviewId', ForEachRoute(async(req,res) => {
+    try{
+        const id = req.params.id;
+        const review = await Review.findByIdAndDelete(req.params.reviewId);
+        if(!review) return console.log('ERROR FOUND');
+
+        res.redirect(`/campgrounds/${id}`);
+    }catch(err){
+        console.log('error in deleting the review section',err);
+    }
 }));
 
 app.use('*', (req,res) => {
