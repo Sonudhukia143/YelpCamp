@@ -1,11 +1,15 @@
-import mongoose from 'mongoose';
+import mongoose, { Mongoose } from 'mongoose';
 import joi from 'joi';
 
 const Joi = joi;
 
 const reviewSchema = new mongoose.Schema({
     rating: Number,
-    review: String
+    review: String,
+    author:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    }
 });
 
 const Review = new mongoose.model('Review',reviewSchema);

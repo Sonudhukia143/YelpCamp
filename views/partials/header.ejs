@@ -19,14 +19,19 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-link active" aria-current="page" href="/">Home</a>
+              <a class="nav-link" aria-current="page" href="/">Home</a>
               <a class="nav-link" href="/campgrounds">Campgrounds</a>
               <a class="nav-link" href="/campgrounds/new">New Campground</a>
+              <% if(!currentUser) { %>
+              <a class="nav-link" href="/campgrounds/register">Register</a>
+              <a class="nav-link" href="/campgrounds/login">Login</a>
+              <% } else if(currentUser) {%>
+              <a class="nav-link" href="/campgrounds/logout">Logout</a>
+              <% } %>
             </div>
           </div>
         </div>
       </nav>
-
       <% if (success.length) { %>
       <div class="alert alert-primary alert-dismissible fade show" role="alert">
         <strong>Done! <%= success %></strong>  

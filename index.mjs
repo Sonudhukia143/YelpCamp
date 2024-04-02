@@ -5,9 +5,11 @@ import mongoose from 'mongoose';
 import methodOverride from 'method-override';
 import { fileURLToPath } from 'url';
 import { error } from './middlewares/error.mjs';
+
 import flash from 'connect-flash';
 import { ForEachRoute } from './middlewares/forEachRoute.mjs';
 import expressSession from 'express-session';
+import passport from 'passport';
 
 import { router as campgroundRouter } from './routes/campground.mjs';
 import { router as reviewRouter } from './routes/reviews.mjs';
@@ -33,23 +35,23 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 const sessionConfig = expressSession({
   secret: 'this is Secret key',
-  path: '/',
-  httpOnly:true,
-  cookie: { secure: false ,  maxAge: 30000 },
-  resave: true,
+  cookie:{  httpOnly:true },
+  resave: false,
   saveUninitialized: true
 });
 app.use(sessionConfig);
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(flash());
 app.use((req,res,next) => {
-   res.locals.success = req.flash('success');
-   next(); 
-});
-app.use((req,res,next) => {
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
-    next(); 
- });
+    next();
+});
+
 
 app.use('/campgrounds/:id/reviews',reviewRouter);
 app.use('/campgrounds',campgroundRouter);
@@ -57,6 +59,7 @@ app.use('/campgrounds',campgroundRouter);
 app.get('/',ForEachRoute(async (req,res) => {
     res.send("Welcome To YelpCamp Homepage");
 }));
+
 
 app.use('*', ForEachRoute((req,res) => {
     res.status(404).send("Route Not Found");
