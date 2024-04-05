@@ -53,7 +53,7 @@ function forValidation(campground) {
         title : Joi.string().required(),
         price: Joi.number().min(0).required(),
         description: Joi.string().required(),
-      //  location: Joi.object().required(),
+        location: Joi.object().required(),
         deleteImages: Joi.array()
     };
     return Joi.object(schema).validate(campground);
