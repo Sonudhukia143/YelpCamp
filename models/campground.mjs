@@ -4,12 +4,30 @@ import { Review } from "./review.mjs";
 
 const Joi = joi;
 
+const ImageSchema = new mongoose.Schema ({
+    url: String,
+    filename: String
+});
+
+ImageSchema.virtual('thumbnail').get(function() {
+    return this.url.replace('/upload','/upload/w_200');
+});
+
 const campgroundSchema = new mongoose.Schema({
     title: String,
-    image:String,
+    images:[ImageSchema],
     price: Number,
     description: String,
-    location: String,
+    location: {
+        postcode:String,
+        city:String,
+        state:String,
+        country:String
+    },
+    geolocation:{
+        lat:Number,
+        lon:Number
+    },
     author:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
@@ -28,16 +46,15 @@ campgroundSchema.post('findOneAndDelete', async function (data) {
     }
 });
 
-
 const Campground = new mongoose.model('Campground', campgroundSchema);
 
 function forValidation(campground) {
     const schema = {
         title : Joi.string().required(),
-        image: Joi.string().required(),
         price: Joi.number().min(0).required(),
         description: Joi.string().required(),
-        location: Joi.string().required()
+      //  location: Joi.object().required(),
+        deleteImages: Joi.array()
     };
     return Joi.object(schema).validate(campground);
 }

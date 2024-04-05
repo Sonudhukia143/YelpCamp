@@ -3,19 +3,34 @@
     <div class="row">
         <h1 class="text-center">New Campground</h1>
         <div class="col-6 offset-3">
-            <form action="/campgrounds" class="needs-validation" method="POST" novalidate>
+            <form action="/campgrounds" class="needs-validation" method="POST" novalidate enctype="multipart/form-data">
                 <div class="mb-3">
                     <label class="form-label" for="title">Title</label>
                     <input class="form-control" type="text" id="title" name="campground[title]" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="location">Location</label>
-                    <input class="form-control" type="text" id="location" name="campground[location]" required>
+                    <div class="row">
+                        <div class="col-6">
+                            <input class="form-control" type="text" id="location" name="campground[location.postcode]" required placeholder="POSTCODE">
+                        </div>
+                        <div class="col-6">
+                            <input class="form-control" type="text" id="location" name="campground[location.city]" required placeholder="CITY">
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-6">
+                            <input class="form-control" type="text" id="location" name="campground[location.state]" required placeholder="STATE">
+                        </div>
+                       <div class="col-6">
+                            <input class="form-control" type="text" id="location" name="campground[location.country]" required placeholder="COUNTRY">
+                       </div>
+                    </div><br>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" for="image">Image Url</label>
-                    <input class="form-control" type="text" id="image" name="campground[image]" required>
-                </div>
+                  <div class="input-group mb-3">
+                    <input type="file" class="form-control" id="inputGroupFile02" multiple name="images[]" required>
+                    <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                  </div>           
                 <div class="mb-3">
                     <label class="form-label" for="price">Campground Price</label>
                     <div class="input-group mb-3">
