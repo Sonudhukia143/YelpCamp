@@ -1,36 +1,8 @@
 <%- include('../partials/header.ejs'); %>
+<div class="d-flex flex-row col-11 mx-auto">
 
-    <div class="mt-3 col-md-6 mx-auto">
-        <div id="map"></div>
-        <script>
-
-            var map, Marker1;
-
-            async function initMap1() {
-                const campground = '<%- JSON.stringify(campground) %>';
-                const newCampground = JSON.parse(campground);
-
-                map = new mappls.Map('map', {
-                    center: [28.61, 77.23],
-                    zoomControl: true,
-                    location: true
-                });
-                Marker1 = new mappls.Marker({
-                    map: map,
-                    position: {
-                        "lat": newCampground.geolocation.lat,
-                        "lng": newCampground.geolocation.lon
-                    },
-                    fitbounds: true,
-                    icon_url: 'https://apis.mapmyindia.com/map_v3/1.png'
-                });  
-                map.setZoom(18);
-            }
-        </script>
-    </div>
-
-    <div class="row">
-        <div class="col-6 mt-3">
+    <div class="row d-inline-block col-6">
+        <div class="col-12 mt-3">
             <div class="card mb-3">
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
@@ -55,8 +27,6 @@
 
                         <% } %>
                 </div>
-
-
                 <div class="card-body">
                     <h5 class="card-title">
                         <%= campground.title %>
@@ -77,7 +47,7 @@
                     </li>
                 </ul>
                 <% if (currentUser && campground.author && campground.author.equals(currentUser._id)) { %>
-                    <div class="col-6">
+                    <div class="col-12">
                         <div class="card">
                             <div class="card-body">
                                 <a href="/campgrounds/<%=campground._id%>/edit" class="card-link btn btn-info">Edit</a>
@@ -94,9 +64,9 @@
                     <% } %>
             </div>
         </div>
+        <div class="col-12">
         <% if(currentUser) { %>
-            <div class="col-6">
-                <div class="col-6">
+                <div class="col-6 mx-auto">
                     <h2>Leave A Review</h2>
                 </div>
                 <form method="POST" action="/campgrounds/<%= campground._id %>/reviews" class="mb-3 needs-validation"
@@ -118,15 +88,15 @@
                         <label for="first-rate5" title="Amazing">5 stars</label>
                     </fieldset>
 
-                    <div class="col-6 mb-3">
+                    <div class="col-12 mb-3 mx-auto">
                         <label class="form-label" for="body">Review</label>
                         <textarea class="form-control" name="review" rows="3" columns="30" required></textarea>
                         <button class="btn btn-success mt-3">Submit</button>
                     </div>
                 </form>
-                <%}%>
+                <%} %> 
                     <% for(let review of campground.review ) { %>
-                        <div class="card mb-3 col-6">
+                        <div class="card mb-3 col-12">
                             <div class="card-body">
                                 <h5 class="card-title">
                                     <h3>
@@ -150,6 +120,32 @@
                         <% } %>
             </div>
     </div>
+
+    <div class="mt-3 mx-auto d-inline-block col-6">
+        <div id="map"></div>
+        <script>
+
+            const campground = '<%- JSON.stringify(campground) %>';
+            const newCampground = JSON.parse(campground);
+
+            var map;
+            function initMap1() {
+                map = new mappls.Map('map', {
+                    center: [newCampground.geolocation.lat, newCampground.geolocation.lon],
+                });
+
+                Marker1 = new mappls.Marker({
+                    map: map,
+                    position: {
+                        "lat": newCampground.geolocation.lat,
+                        "lng": newCampground.geolocation.lon
+                    },
+                    icon_url: 'https://apis.mapmyindia.com/map_v3/1.png'
+                }); map.setZoom(12);
+            }
+        </script>
+    </div>
+
     </div>
 
     <%- include('../partials/footer.ejs'); %>

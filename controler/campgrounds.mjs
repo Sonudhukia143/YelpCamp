@@ -34,13 +34,10 @@ addCampgroundPost = async (req, res) => {
         }
 
         const campground = new Campground(req.body.campground);
-        console.log(campground);
 
         const response = await fetch(`https://api.geoapify.com/v1/geocode/search?postcode=${campground.postcode}&city=${campground.city}&state=${campground.state}&country=${campground.country}&format=json&apiKey=${process.env.geolocation_API_key}`);
 
-        const data = await response.json(); 
-        console.log(data.results[0].lon);
-        console.log(data.results[0].lat); 
+        const data = await response.json();  
 
         campground.images = await req.files.map(f => ({url: f.path,filename:f.filename }));
 
