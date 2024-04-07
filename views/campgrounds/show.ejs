@@ -3,8 +3,6 @@
     <div class="row">
         <div class="col-6 mt-3">
             <div class="card mb-3">
-
-
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <% campground.images.forEach((image ,i) => {%>
@@ -42,7 +40,10 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item text-muted">
-                        <%= campground.location %>
+                        <%= campground.postcode %>,
+                        <%= campground.city %>,
+                        <%= campground.state %>,
+                        <%= campground.country %>
                     </li>
                     <li class="list-group-item">
                         <%=campground.price %>

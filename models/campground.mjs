@@ -18,12 +18,10 @@ const campgroundSchema = new mongoose.Schema({
     images:[ImageSchema],
     price: Number,
     description: String,
-    location: {
-        postcode:String,
-        city:String,
-        state:String,
-        country:String
-    },
+    postcode:String,
+    city:String,
+    state:String,
+    country:String,
     geolocation:{
         lat:Number,
         lon:Number
@@ -50,10 +48,13 @@ const Campground = new mongoose.model('Campground', campgroundSchema);
 
 function forValidation(campground) {
     const schema = {
-        title : Joi.string().required(),
+        title: Joi.string().required(),
         price: Joi.number().min(0).required(),
         description: Joi.string().required(),
-        location: Joi.object().required(),
+        postcode: Joi.string().required(),
+        city: Joi.string().required(),
+        state: Joi.string().required(),
+        country: Joi.string().required(),
         deleteImages: Joi.array()
     };
     return Joi.object(schema).validate(campground);

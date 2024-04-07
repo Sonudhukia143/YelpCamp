@@ -25,33 +25,34 @@ addCampgroundGet = async (req, res) => {
 
 addCampgroundPost = async (req, res) => {
     try{
-        const{error} = forValidation(req.body.campground);
+        const { error } = forValidation(req.body.campground);
+        console.log(error);
+        console.log("this is req.body",req.body.campground);
         if(error) {
             req.flash('error','Enter Valid Data In Your Form ');
-            res.redirect('campgrounds/new');
+            return res.redirect('campgrounds/new');
         }
 
         const campground = new Campground(req.body.campground);
         console.log(campground);
 
-        //const response = await fetch(`https://api.geoapify.com/v1/geocode/search?postcode=${campground.location.postcode}&city=${campground.location.city}&state=${campground.location.state}&country=${campground.location.country}&format=json&apiKey=${process.env.geolocation_API_key}`);
+        const response = await fetch(`https://api.geoapify.com/v1/geocode/search?postcode=${campground.postcode}&city=${campground.city}&state=${campground.state}&country=${campground.country}&format=json&apiKey=${process.env.geolocation_API_key}`);
 
-        //const data = await response.json(); 
-        /* console.log(data.results[0].lon);
-        console.log(data.results[0].lat); */
+        const data = await response.json(); 
+         console.log(data.results[0].lon);
+        console.log(data.results[0].lat); 
 
         campground.images = await req.files.map(f => ({url: f.path,filename:f.filename }));
 
         campground.author = await req.user;
-       /* campground.geolocation.lat = await data.results[0].lat;
-        campground.geolocation.lon = await data.results[0].lon; */
+        campground.geolocation.lat = await data.results[0].lat;
+        campground.geolocation.lon = await data.results[0].lon; 
 
         await campground.save();
         req.flash('success','Succesfully Created a Campground ');
 
-        res.redirect(`/campgrounds/${campground._id}`);
-    }
-    catch(ex){
+        return res.redirect(`/campgrounds/${campground._id}`);
+    }catch(ex){
         console.log("ERROR IN POSTING CAMPGROUND",ex);
     }
 };
