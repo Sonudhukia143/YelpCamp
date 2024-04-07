@@ -12,18 +12,18 @@
                 <label class="form-label" for="location">Location</label>
                 <div class="row" id="location">
                     <div class="col-6">
-                        <input class="form-control" type="text" id="location" name="campground[location.postcode]" value="<%= campground.location.postcode %>" required>
+                        <input class="form-control" type="text" id="location" name="campground[postcode]" value="<%= campground.postcode %>" required readonly>
                     </div>
                     <div class="col-6">
-                        <input class="form-control" type="text" id="location" name="campground[location.city]" value="<%= campground.location.city %>" required>
+                        <input class="form-control" type="text" id="location" name="campground[city]" value="<%= campground.city %>" required readonly>
                     </div>
                 </div><br>
                 <div class="row">
                     <div class="col-6">
-                        <input class="form-control" type="text" id="location" name="campground[location.state]" value="<%= campground.location.state %>" required>
+                        <input class="form-control" type="text" id="location" name="campground[state]" value="<%= campground.state %>" required readonly>
                     </div>
                    <div class="col-6">
-                        <input class="form-control" type="text" id="location" name="campground[location.country]" value="<%= campground.location.country %>" required>
+                        <input class="form-control" type="text" id="location" name="campground[country]" value="<%= campground.country %>" required readonly>
                    </div>
                 </div><br>
                 <div class="input-group mb-3">
