@@ -26,8 +26,6 @@ addCampgroundGet = async (req, res) => {
 addCampgroundPost = async (req, res) => {
     try{
         const { error } = forValidation(req.body.campground);
-        console.log(error);
-        console.log("this is req.body",req.body.campground);
         if(error) {
             req.flash('error','Enter Valid Data In Your Form ');
             return res.redirect('campgrounds/new');
@@ -42,8 +40,16 @@ addCampgroundPost = async (req, res) => {
         campground.images = await req.files.map(f => ({url: f.path,filename:f.filename }));
 
         campground.author = await req.user;
-        campground.geolocation.lat = await data.results[0].lat;
-        campground.geolocation.lon = await data.results[0].lon; 
+        campground.geometry.coordinates[0] = await data.results[0].lat;
+        campground.geometry.coordinates[1] = await data.results[0].lon;
+
+        campground.geometry.type = "Point";
+        campground.type = "Feature";
+
+        campground.properties = { 
+            iconSize: 0.55,
+            htmlPopup: `<a href="campgrounds/${campground._id}">${campground.title}</a>`
+        };
 
         await campground.save();
         req.flash('success','Succesfully Created a Campground ');

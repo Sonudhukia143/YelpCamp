@@ -14,6 +14,13 @@ ImageSchema.virtual('thumbnail').get(function() {
 });
 
 const campgroundSchema = new mongoose.Schema({
+    type: {
+        type: String,
+        enum: ['Feature'],
+    },
+    properties:{
+        type:Object
+    },
     title: String,
     images:[ImageSchema],
     price: Number,
@@ -22,9 +29,15 @@ const campgroundSchema = new mongoose.Schema({
     city:String,
     state:String,
     country:String,
-    geolocation:{
-        lat:Number,
-        lon:Number
+    geometry:{
+        type: {
+            type: String,
+            enum: ['Point'],
+        },
+        coordinates:{
+            type:[Number],
+            required:true
+        }
     },
     author:{
         type:mongoose.Schema.Types.ObjectId,

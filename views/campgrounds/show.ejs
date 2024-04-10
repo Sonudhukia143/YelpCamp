@@ -1,7 +1,7 @@
 <%- include('../partials/header.ejs'); %>
-<div class="d-flex flex-row col-11 mx-auto">
+<div class="d-flex flex-row col-8 mx-auto">
 
-    <div class="row d-inline-block col-6">
+    <div class="row d-inline-block col-4">
         <div class="col-12 mt-3">
             <div class="card mb-3">
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
@@ -64,6 +64,7 @@
                     <% } %>
             </div>
         </div>
+        <br><br><br><hr>
         <div class="col-12">
         <% if(currentUser) { %>
                 <div class="col-6 mx-auto">
@@ -121,24 +122,31 @@
             </div>
     </div>
 
-    <div class="mt-3 mx-auto d-inline-block col-6">
+    <div class="mt-3 mx-auto d-inline-block col-4">
         <div id="map"></div>
         <script>
 
-            const campground = '<%- JSON.stringify(campground) %>';
-            const newCampground = JSON.parse(campground);
+            const campground = <%- JSON.stringify(campground) %>;
+
+            console.log(campground)
+
+            const newCampground = {
+                coordinates: campground.geometry.coordinates
+            }
+
+            console.log(newCampground);
 
             var map;
             function initMap1() {
                 map = new mappls.Map('map', {
-                    center: [newCampground.geolocation.lat, newCampground.geolocation.lon],
+                    center: [newCampground.coordinates[0], newCampground.coordinates[1]],
                 });
 
                 Marker1 = new mappls.Marker({
                     map: map,
                     position: {
-                        "lat": newCampground.geolocation.lat,
-                        "lng": newCampground.geolocation.lon
+                        "lat": newCampground.coordinates[0],
+                        "lng": newCampground.coordinates[1]
                     },
                     icon_url: 'https://apis.mapmyindia.com/map_v3/1.png'
                 }); map.setZoom(12);
