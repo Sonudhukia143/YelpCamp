@@ -37,6 +37,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/campgroundimages', express.static(path.join(__dirname, 'campgroundimages')));
 
 const sessionConfig = expressSession({
   secret: 'this is Secret key',
@@ -62,7 +63,7 @@ app.use('/campgrounds/:id/reviews',reviewRouter);
 app.use('/campgrounds',campgroundRouter);
 
 app.get('/',ForEachRoute(async (req,res) => {
-    res.send("Welcome To YelpCamp Homepage");
+    res.render("home.ejs");
 }));
 
 

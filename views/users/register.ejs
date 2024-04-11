@@ -1,22 +1,27 @@
 <%- include('../partials/header.ejs'); %>
 
+<br><br><br>
+
 <div class="row">
-    <h1 class="text-center">Register</h1>
-    <div class="col-6 offset-3">
+    <div class="card mx-auto" style="width: 25rem;">
+        <img src="/campgroundimages/registernow.jpg" class="card-img-top" alt="">
+        <div class="card-body">
+            <h5 class="card-title">Register Now</h5>
+        </div>
         <form action="/campgrounds/register" class="needs-validation" method="POST" novalidate>
-            <div class="mb-3">
+            <ul class="list-group list-group-flush">
                 <label class="form-label" for="username">Full Name</label>
-                <input class="form-control" type="text" id="username" name="username" required>
-            </div>
-            <div class="mb-3">
+            </ul>
+            <input class="form-control" type="text" id="username" name="username" required>
+            <ul class="list-group list-group-flush">
                 <label class="form-label" for="gmail">Gmail</label>
+            </ul>
                 <input class="form-control" type="text" id="gmail" name="gmail" required>
-            </div>
-            <div class="mb-3">
+            <ul class="list-group list-group-flush">
                 <label class="form-label" for="password">Password</label>
-                <input class="form-control" type="password" id="password" name="password" required>
-            </div>
-            <div class="mb-3"><button class="btn btn-success">Register</button></div>
+            </ul>
+                <input class="form-control" type="password" id="password" name="password" required><br>
+            <div class="mb-3"><button class="btn btn-success">Register</button></div><a href="/campgrounds/login">already a user?</a>
         </form>
     </div>
 </div>

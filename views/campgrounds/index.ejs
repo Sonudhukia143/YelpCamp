@@ -1,11 +1,11 @@
 <%- include('../partials/header.ejs'); %>
 
-  <h1 class="text-center">All Campgrounds</h1>
-
-
-  <div class="col-9 mb-3 mt-3 mx-auto">
+<br><br><br>
+<div class="col-11 mx-auto">
+  <div class="col-10 mb-3 mt-3 mx-auto" id="all-campground-index-page-map">
     <div id="map"></div>
   </div>
+</div>
 
   <script>
     var map, marker;
@@ -54,9 +54,11 @@
             })
       }
   </script>
+<br>
+<h1 class="text-center">All Campgrounds</h1><br>
 
   <% for (let campground of campgrounds){%>
-    <div class="card col-6 mx-auto" mb-3>
+    <div class="card col-6 mx-auto" id="all-campground-index-page" mb-3>
       <div class="row">
         <div class="col-md-4">
           <img class="img-fluid" alt="" src="<%=campground.images[0].url%>" />
@@ -78,7 +80,7 @@
           </div>
         </div>
       </div>
-    </div><br><hr>
+    </div><br>
     <% }%>
 
       <%- include('../partials/footer.ejs'); %>

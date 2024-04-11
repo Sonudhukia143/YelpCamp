@@ -1,0 +1,89 @@
+body{
+    margin: 0%;
+}
+.all-page{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))
+    ,url(https://images.unsplash.com/photo-1559521783-1d1599583485?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80);
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
+}
+
+#button{
+    color: black;
+}
+
+#login,#campgrounds,#register {
+    font-size: larger;
+    font-weight: 600;
+    color: rgb(159, 156, 156);
+}
+
+#home{
+    font-size: larger;
+    color: white;
+    font-weight: 700;
+    text-decoration:white underline;
+    text-decoration-thickness: 0.3em;
+    text-underline-offset: 0.4em;
+}
+
+#login:hover{
+    color: rgb(185, 184, 184);
+    text-decoration: rgb(200, 198, 198) underline;
+    text-decoration-thickness: 0.3em;
+    text-underline-offset: 0.4em;
+}
+
+#register:hover{
+    color: rgb(185, 184, 184);
+    text-decoration: rgb(200, 198, 198) underline;
+    text-decoration-thickness: 0.3em;
+    text-underline-offset: 0.4em;
+}
+
+#campgrounds:hover{
+    color: rgb(185, 184, 184);
+    text-decoration: rgb(200, 198, 198) underline;
+    text-decoration-thickness: 0.3em;
+    text-underline-offset: 0.4em;
+}
+
+@media screen and (max-width: 900px) {
+    #outer-div-show-page {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    #inner-campground-div-showpage {
+        width: 100%;
+        float: none;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    #inner-map-div-showpage {
+        width: 100%;
+        float: none;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    #all-campground-index-page{
+        width: max-content;
+        float: none;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    #all-campground-index-page-map{
+        width: 100%;
+        float: none;
+    }
+}
+
+
+
+
+

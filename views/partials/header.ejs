@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campgrounds</title>
+    <link rel="stylesheet" href="/public/stylesheet/style.css"/>
     <link rel="stylesheet"  href="../../public/css/bootstrap.min.css"/>
     <script src="../../public/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../../public/stylesheet/stars.css"/>
@@ -36,12 +37,12 @@
       </nav>
       <% if (success.length) { %>
       <div class="alert alert-primary alert-dismissible fade show" role="alert">
-        <strong>Done! <%= success %></strong>  
+        <strong><%= success %></strong>  
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
       <% } else if(error.length) { %>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <strong> Not Done! <%= error %></strong>  
+          <strong><%= error %></strong>  
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         <% } %>
