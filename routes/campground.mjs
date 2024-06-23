@@ -23,7 +23,7 @@ import UserController from '../controler/user.mjs';
 
 const userController = new UserController();
 
-//ROUTES HERE
+//ROUTES HERE FOR USER
 router.get('/register', ForEachRoute(userController.registerUserGet));
 
 router.post('/register',ForEachRoute(userController.registerUserPost));

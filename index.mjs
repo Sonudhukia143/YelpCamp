@@ -30,13 +30,14 @@ import { router as reviewRouter } from './routes/reviews.mjs';
 
 import MongoStore from 'connect-mongo'
 
-mongoose.connect('mongodb+srv://jagdishdhukia770:we are great@cluster0.opwmuei.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+
+mongoose.connect(process.env.mongo_atlas_key)
 .then(() => {
     console.log("Connected to the database");
 })
 .catch((err) => {
     console.log("Error In Establishing Connection",err);
-}); 
+});
 
 /*
 mongoose.connect('mongodb://localhost:27017/yelp-camp')
@@ -47,6 +48,7 @@ mongoose.connect('mongodb://localhost:27017/yelp-camp')
     console.log("Error In Establishing Connection",err);
 });
 */
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
