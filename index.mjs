@@ -4,6 +4,15 @@ if( process.env.NODE_ENV !== "production" ) {
 }
 
 import express from 'express';
+
+import mongoSanitize from 'express-mongo-sanitize';
+
+const app = express();
+
+app.use(express.urlencoded({ extended: true }));
+app.use(mongoSanitize());
+
+
 import path from 'path';
 import { dirname } from 'path';
 import mongoose from 'mongoose';
@@ -19,6 +28,19 @@ import passport from 'passport';
 import { router as campgroundRouter } from './routes/campground.mjs';
 import { router as reviewRouter } from './routes/reviews.mjs';
 
+import MongoStore from 'connect-mongo'
+
+/**
+ mongoose.connect('mongodb+srv://jagdishdhukia770:we are great@cluster0.opwmuei.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+.then(() => {
+    console.log("Connected to the database");
+})
+.catch((err) => {
+    console.log("Error In Establishing Connection",err);
+}); 
+
+*/
+
 mongoose.connect('mongodb://localhost:27017/yelp-camp')
 .then(() => {
     console.log("Connected to the database");
@@ -27,19 +49,23 @@ mongoose.connect('mongodb://localhost:27017/yelp-camp')
     console.log("Error In Establishing Connection",err);
 });
 
-const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
-app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/campgroundimages', express.static(path.join(__dirname, 'campgroundimages')));
 
+ const store = MongoStore.create({
+      mongoUrl:'mongodb://localhost:27017/yelp-camp',
+      ttl: 24 * 60 * 60, // = 1 day
+      touchAfter: 24 * 60 * 60
+    });
+
+
 const sessionConfig = expressSession({
+  store: store,
   secret: 'this is Secret key',
   cookie:{  httpOnly:true },
   resave: false,
@@ -51,13 +77,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(flash());
-app.use((req,res,next) => {
+app.use((req,res,next) => { 
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
 });
-
 
 app.use('/campgrounds/:id/reviews',reviewRouter);
 app.use('/campgrounds',campgroundRouter);

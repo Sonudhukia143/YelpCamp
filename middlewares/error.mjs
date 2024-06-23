@@ -1,6 +1,7 @@
+
 function error(err,req,res,next){
     console.log(err);
-    return res.send("Couldnot Find The Page That You Are Requesting For");
+    res.render('error/error.ejs');
 }
 
 export { error };
