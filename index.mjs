@@ -31,7 +31,7 @@ import { router as reviewRouter } from './routes/reviews.mjs';
 import MongoStore from 'connect-mongo'
 
 
-mongoose.connect(process.env.mongo_atlas_key)
+await mongoose.connect(process.env.mongo_atlas_key)
 .then(() => {
     console.log("Connected to the database");
 })
