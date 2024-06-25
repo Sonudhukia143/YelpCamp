@@ -1,7 +1,17 @@
+import mongoose from 'mongoose';
+
 import dotenv from 'dotenv';
 if( process.env.NODE_ENV !== "production" ) {
     dotenv.config();
 }
+
+await mongoose.connect(process.env.mongo_atlas_key)
+.then(() => {
+    console.log("Connected to the database");
+})
+.catch((err) => {
+    console.log("Error In Establishing Connection",err);
+});
 
 import express from 'express';
 
@@ -15,7 +25,6 @@ app.use(mongoSanitize());
 
 import path from 'path';
 import { dirname } from 'path';
-import mongoose from 'mongoose';
 import methodOverride from 'method-override';
 import { fileURLToPath } from 'url';
 import { error } from './middlewares/error.mjs';
@@ -30,14 +39,6 @@ import { router as reviewRouter } from './routes/reviews.mjs';
 
 import MongoStore from 'connect-mongo'
 
-
-await mongoose.connect(process.env.mongo_atlas_key)
-.then(() => {
-    console.log("Connected to the database");
-})
-.catch((err) => {
-    console.log("Error In Establishing Connection",err);
-});
 
 /*
 mongoose.connect('mongodb://localhost:27017/yelp-camp')
