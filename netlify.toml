@@ -1,6 +1,8 @@
 [build]
   command = "npm install" # The build command, which installs your dependencies
   functions = "/" # The directory for serverless functions
+  publish = "public"
+  node_version = "16"
 
 [[redirects]]
   from = "/*"
