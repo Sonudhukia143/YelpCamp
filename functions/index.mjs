@@ -28,15 +28,15 @@ import path from 'path';
 import { dirname } from 'path';
 import methodOverride from 'method-override';
 import { fileURLToPath } from 'url';
-import { error } from './middlewares/error.mjs';
+import { error } from '../middlewares/error.mjs';
 
 import flash from 'connect-flash';
-import { ForEachRoute } from './middlewares/forEachRoute.mjs';
+import { ForEachRoute } from '../middlewares/forEachRoute.mjs';
 import expressSession from 'express-session';
 import passport from 'passport';
 
-import { router as campgroundRouter } from './routes/campground.mjs';
-import { router as reviewRouter } from './routes/reviews.mjs';
+import { router as campgroundRouter } from '../routes/campground.mjs';
+import { router as reviewRouter } from '../routes/reviews.mjs';
 
 import MongoStore from 'connect-mongo'
 
