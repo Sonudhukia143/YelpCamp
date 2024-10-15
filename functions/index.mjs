@@ -2,17 +2,24 @@ import mongoose from 'mongoose';
 import serverless from 'serverless-http';
 
 import dotenv from 'dotenv';
-if( process.env.NODE_ENV !== "production" ) {
+if (process.env.NODE_ENV !== "production") {
     dotenv.config();
 }
 
-await mongoose.connect(process.env.mongo_atlas_key)
-.then(() => {
-    console.log("Connected to the database");
-})
-.catch((err) => {
-    console.log("Error In Establishing Connection",err);
-});
+async function connectToDb() {
+    try {
+        await mongoose.connect(process.env.mongo_atlas_key)
+            .then(() => {
+                console.log("Connected to the database");
+            })
+            .catch((err) => {
+                console.log("Error In Establishing Connection", err);
+            })
+    } catch (error) {
+        console.error('Database connection error:', error);
+        throw error;
+    }
+}
 
 import express from 'express';
 
@@ -50,29 +57,28 @@ mongoose.connect('mongodb://localhost:27017/yelp-camp')
     console.log("Error In Establishing Connection",err);
 });
 */
-
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+//fileURLToPath(import.meta.url);
+const __filename = __filename;
+const __dirname = path.dirname(__filename);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(methodOverride('_method'));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/campgroundimages', express.static(path.join(__dirname, 'campgroundimages')));
 
- const store = MongoStore.create({
-      mongoUrl:'mongodb://localhost:27017/yelp-camp',
-      ttl: 24 * 60 * 60, // = 1 day
-      touchAfter: 24 * 60 * 60
-    });
+const store = MongoStore.create({
+    mongoUrl: 'mongodb://localhost:27017/yelp-camp',
+    ttl: 24 * 60 * 60, // = 1 day
+    touchAfter: 24 * 60 * 60
+});
 
 
 const sessionConfig = expressSession({
-  store: store,
-  secret: 'this is Secret key',
-  cookie:{  httpOnly:true },
-  resave: false,
-  saveUninitialized: true
+    store: store,
+    secret: 'this is Secret key',
+    cookie: { httpOnly: true },
+    resave: false,
+    saveUninitialized: true
 });
 app.use(sessionConfig);
 
@@ -80,28 +86,28 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(flash());
-app.use((req,res,next) => { 
+app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
 });
 
-app.use('/campgrounds/:id/reviews',reviewRouter);
-app.use('/campgrounds',campgroundRouter);
+app.use('/campgrounds/:id/reviews', reviewRouter);
+app.use('/campgrounds', campgroundRouter);
 
-app.get('/',ForEachRoute(async (req,res) => {
+app.get('/', ForEachRoute(async (req, res) => {
     res.render("home.ejs");
 }));
 
 
-app.use('*', ForEachRoute((req,res) => {
+app.use('*', ForEachRoute((req, res) => {
     res.status(404).render("/error/error.ejs");
 }));
 
 app.use(error);
 
-const Port = { port:process.env.PORT||3000 };
+const Port = { port: process.env.PORT || 3000 };
 
 app.listen(Port.port, () => {
     console.log(`Serving on port ${Port.port}`);

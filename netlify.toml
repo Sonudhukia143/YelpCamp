@@ -4,8 +4,12 @@
   publish = "public"
   node_version = "16"
 
+
+
+[functions]
+node_bundler = "esbuild"
+
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/index.mjs"
   status = 200
-
