@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+const serverless = require('serverless-http');
 
 import dotenv from 'dotenv';
 if( process.env.NODE_ENV !== "production" ) {
@@ -105,3 +106,5 @@ const Port = { port:process.env.PORT||3000 };
 app.listen(Port.port, () => {
     console.log(`Serving on port ${Port.port}`);
 });
+
+module.exports.hanler = serverless(app);
