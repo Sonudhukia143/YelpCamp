@@ -1,7 +1,9 @@
 [build]
-  functions = "functions"
+  command = "npm install" # The build command, which installs your dependencies
+  functions = "/" # The directory for serverless functions
 
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions/server"
+  to = "/.netlify/index.mjs"
   status = 200
+
