@@ -40,7 +40,7 @@ import CampgroundController from '../controler/campgrounds.mjs';
 
 import multer from 'multer';
 const upload = multer({ storage:storage });
-import { cloudinary,storage} from '../cloudinary/app.js'
+import { cloudinary,storage} from '../cloudinary/app.mjs'
 
 const campgroundController = new CampgroundController();
 
