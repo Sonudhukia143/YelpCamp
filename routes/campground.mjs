@@ -7,8 +7,6 @@ import LocalStrategy from 'passport-local';
 import { userAuthentication,storeReturnTo } from '../middlewares/userAuthentication.mjs';
 import { ifAuth } from '../middlewares/ifAuth.mjs';
 
-const app = express();
-
 const router = express.Router();
 
 /******************* USER SECTION *************USER SECTION**********USER SECTION***********************/

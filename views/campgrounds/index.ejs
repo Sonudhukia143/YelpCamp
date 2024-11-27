@@ -1,5 +1,6 @@
 <%- include('../partials/header.ejs'); %>
 
+
 <br><br><br>
 <div class="col-11 mx-auto">
   <div class="col-10 mb-3 mt-3 mx-auto" id="all-campground-index-page-map">
@@ -7,27 +8,29 @@
   </div>
 </div>
 
+
   <script>
     var map, marker;
     function initMap1() {
       map = new mappls.Map('map', {
         center: [28.61, 77.23],
         zoomControl: true,
-        location: true
+        zoom:8,
+        location: true,
       });
 
       map.on('load', function () {
-        const campgrounds = <%- JSON.stringify(campgrounds) %>;
+        let campgrounds = <%- JSON.stringify(campgrounds) %>;
 
         marker = new mappls.Marker({
-                    map: map,
+                    map: map, 
                     position: {
                         "id": "ravi",
                         "type": "FeatureCollection",
                         "features": campgrounds
                     },
                     fitbounds: true,
-                    icon: 'https://apis.mapmyindia.com/map_v3/2.png',
+                    icon:"https://apis.mapmyindia.com/map_v3/2.png",
                     offset: [0, -40],
                     draggable: false,
                     clustersOptions: {
@@ -54,14 +57,16 @@
             })
       }
   </script>
+
+
 <br>
 <h1 class="text-center">All Campgrounds</h1><br>
 
-  <% for (let campground of campgrounds){%>
+  <% for (let campground of campgrounds){ %>
     <div class="card col-6 mx-auto" id="all-campground-index-page" mb-3>
       <div class="row">
         <div class="col-md-4">
-          <img class="img-fluid" alt="" src="<%=campground.images[0].url%>" />
+          <img class="img-fluid" alt="" src="<%= campground.images[0].url %>" />
         </div>
         <div class="col-md-8">
           <div class="card-body">
@@ -69,18 +74,18 @@
               <%= campground.title %>
             </h5>
             <p class="card-text">
-              <%= campground.description%>
+              <%= campground.description %>
             </p>
             <p class="card-text">
               <small class="text-muted">
                 <%= campground.location %>
               </small>
             </p>
-            <a class="btn btn-primary" href="/campgrounds/<%= campground._id%>">View <%=campground.title %></a>
+            <a class="btn btn-primary" href="/campgrounds/<%= campground._id %>">View <%= campground.title %></a>
           </div>
         </div>
       </div>
     </div><br>
-    <% }%>
+    <% } %>
 
       <%- include('../partials/footer.ejs'); %>

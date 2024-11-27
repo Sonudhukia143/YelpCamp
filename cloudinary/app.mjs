@@ -14,9 +14,9 @@ cloudinary.uploader
 */
 
 cloudinary.config({ 
-    cloud_name: process.env.cloudinary_cloud_name, 
-    api_key: process.env.cloudinary_API_key, 
-    api_secret: process.env.cloudinary_API_secret
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+    api_key: process.env.CLOUDINARY_API_KEY, 
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 const storage = new CloudinaryStorage({

@@ -12,7 +12,9 @@ export default class CampgroundController {
 
 allCampgrounds = async function (req, res) {
     const campgrounds = await Campground.find({});
-    res.render('campgrounds/index.ejs', { campgrounds });
+    const data = {MAPPLES_MAP_API_KEY:process.env.MAPPLES_MAP_API_KEY};
+
+    res.render('campgrounds/index.ejs', { campgrounds,data });
 };
 
 addCampgroundGet = async (req, res) => {
@@ -33,7 +35,7 @@ addCampgroundPost = async (req, res) => {
 
         const campground = new Campground(req.body.campground);
 
-        const response = await fetch(`https://api.geoapify.com/v1/geocode/search?postcode=${campground.postcode}&city=${campground.city}&state=${campground.state}&country=${campground.country}&format=json&apiKey=${process.env.geolocation_API_key}`);
+        const response = await fetch(`https://api.geoapify.com/v1/geocode/search?postcode=${campground.postcode}&city=${campground.city}&state=${campground.state}&country=${campground.country}&format=json&apiKey=${process.env.GEOLOCATION_API_KEY}`);
 
         const data = await response.json();  
 
@@ -46,9 +48,11 @@ addCampgroundPost = async (req, res) => {
         campground.geometry.type = "Point";
         campground.type = "Feature";
 
+
+
         campground.properties = { 
-            iconSize: 0.55,
-            htmlPopup: `<a href="campgrounds/${campground._id}">${campground.title}</a>`
+            "icon-size1": 0.55,
+            htmlPopup: `<a href="campgrounds/${campground._id}"}>${campground.title}</a>`
         };
 
         await campground.save();
@@ -67,6 +71,7 @@ showCampgroundGet = async (req, res,) => {
             path:'author'
         }
     }).populate('author');
+
     
     res.render('campgrounds/show.ejs', { campground:campground });
 };

@@ -57,7 +57,8 @@ mongoose.connect('mongodb://localhost:27017/yelp-camp')
     console.log("Error In Establishing Connection",err);
 });
 */
-//fileURLToPath(import.meta.url);
+
+fileURLToPath(import.meta.url);
 const __filename = __filename;
 const __dirname = path.dirname(__filename);
 app.set('view engine', 'ejs');
