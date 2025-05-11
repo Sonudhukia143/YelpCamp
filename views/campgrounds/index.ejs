@@ -1,91 +1,84 @@
 <%- include('../partials/header.ejs'); %>
 
-
 <br><br><br>
-<div class="col-11 mx-auto">
-  <div class="col-10 mb-3 mt-3 mx-auto" id="all-campground-index-page-map">
-    <div id="map"></div>
+
+<div class="container">
+  <div class="mb-4" id="all-campground-index-page-map">
+    <div id="map" style="height: 300px; width: 100%;"></div>
   </div>
-</div>
 
+  <h1 class="text-center mb-4">All Campgrounds</h1>
 
-  <script>
-    var map, marker;
-    function initMap1() {
-      map = new mappls.Map('map', {
-        center: [28.61, 77.23],
-        zoomControl: true,
-        zoom:8,
-        location: true,
-      });
-
-      map.on('load', function () {
-        let campgrounds = <%- JSON.stringify(campgrounds) %>;
-
-        marker = new mappls.Marker({
-                    map: map, 
-                    position: {
-                        "id": "ravi",
-                        "type": "FeatureCollection",
-                        "features": campgrounds
-                    },
-                    fitbounds: true,
-                    icon:"https://apis.mapmyindia.com/map_v3/2.png",
-                    offset: [0, -40],
-                    draggable: false,
-                    clustersOptions: {
-                        background: [
-                            [2, 'green'],
-                            [5, 'red'],
-                            [10, 'yellow'],
-                            [20, 'orange'],
-                            [35, 'blue']
-                        ], // steps in background color (in pixels)
-                        maxZoom: 7, // that zoom for split cluster circle 
-                        radius: [
-                            [2, 15],
-                            [5, 20],
-                            [10, 30],
-                            [20, 40],
-                            [35, 50],
-                        ] // steps in cluster radius (in pixels)
-                    }
-                    /*Using steps expressions - introduced in background color, and radius - Produces discrete,
-                    stepped results by evaluating a piecewise-constant function defined by pairs of input and 
-                    output values ("stops"). Stop inputs must be numeric literals in strictly ascending order. */
-                });
-            })
-      }
-  </script>
-
-
-<br>
-<h1 class="text-center">All Campgrounds</h1><br>
-
-  <% for (let campground of campgrounds){ %>
-    <div class="card col-6 mx-auto" id="all-campground-index-page" mb-3>
-      <div class="row">
-        <div class="col-md-4">
-          <img class="img-fluid" alt="" src="<%= campground.images[0].url %>" />
+  <% for (let campground of campgrounds) { %>
+    <div class="card mb-4" id="campground-index-page">
+      <div class="row g-0">
+        <div class="col-12 col-md-4">
+          <img 
+            src="<%= campground.images[0].url %>" 
+            alt="<%= campground.title %>" 
+            class="img-fluid rounded-start w-100 h-100 object-fit-cover" 
+            style="max-height: 250px;" />
         </div>
-        <div class="col-md-8">
+        <div class="col-12 col-md-8">
           <div class="card-body">
-            <h5 class="card-title">
-              <%= campground.title %>
-            </h5>
+            <h5 class="card-title"><%= campground.title %></h5>
+            <p class="card-text"><%= campground.description %></p>
             <p class="card-text">
-              <%= campground.description %>
+              <small class="text-muted"><%= campground.location %></small>
             </p>
-            <p class="card-text">
-              <small class="text-muted">
-                <%= campground.location %>
-              </small>
-            </p>
-            <a class="btn btn-primary" href="/campgrounds/<%= campground._id %>">View <%= campground.title %></a>
+            <a class="btn btn-primary" href="/campgrounds/<%= campground._id %>">
+              View <%= campground.title %>
+            </a>
           </div>
         </div>
       </div>
-    </div><br>
-    <% } %>
+    </div>
+  <% } %>
+</div>
 
-      <%- include('../partials/footer.ejs'); %>
+<script>
+  var map, marker;
+  function initMap1() {
+    map = new mappls.Map('map', {
+      center: [28.61, 77.23],
+      zoomControl: true,
+      zoom: 8,
+      location: true,
+    });
+
+    map.on('load', function () {
+      let campgrounds = <%- JSON.stringify(campgrounds) %>;
+      marker = new mappls.Marker({
+        map: map,
+        position: {
+          "id": "ravi",
+          "type": "FeatureCollection",
+          "features": campgrounds
+        },
+        fitbounds: true,
+        icon: "https://apis.mapmyindia.com/map_v3/2.png",
+        offset: [0, -40],
+        draggable: false,
+        clustersOptions: {
+          background: [
+            [2, 'green'],
+            [5, 'red'],
+            [10, 'yellow'],
+            [20, 'orange'],
+            [35, 'blue']
+          ],
+          maxZoom: 7,
+          radius: [
+            [2, 15],
+            [5, 20],
+            [10, 30],
+            [20, 40],
+            [35, 50],
+          ]
+        }
+      });
+    });
+  }
+</script>
+
+<%- include('../partials/footer.ejs'); %>

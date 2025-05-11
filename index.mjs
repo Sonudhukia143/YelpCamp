@@ -5,13 +5,13 @@ if( process.env.NODE_ENV !== "production" ) {
     dotenv.config();
 }
 
-await mongoose.connect(process.env.MONGO_CLOUD_API_KEY)
-.then(() => {
-    console.log("Connected to the database");
-})
-.catch((err) => {
-    console.log("Error In Establishing Connection",err);
-});
+// await mongoose.connect(process.env.MONGO_CLOUD_API_KEY)
+// .then(() => {
+//     console.log("Connected to the database");
+// })
+// .catch((err) => {
+//     console.log("Error In Establishing Connection",err);
+// });
 
 import express from 'express';
 
@@ -37,17 +37,16 @@ import passport from 'passport';
 import { router as campgroundRouter } from './routes/campground.mjs';
 import { router as reviewRouter } from './routes/reviews.mjs';
 
-import MongoStore from 'connect-mongo'
+import MongoStore from 'connect-mongo';
 
-/**
- * mongoose.connect(process.env.mongo_atlas_key)
+await mongoose.connect(process.env.MONGO_CLOUD_API_KEY)
 .then(() => {
     console.log("Connected to the database");
 })
 .catch((err) => {
     console.log("Error In Establishing Connection",err);
 });
- */
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
