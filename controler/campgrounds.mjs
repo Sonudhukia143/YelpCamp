@@ -10,6 +10,11 @@ if( process.env.NODE_ENV !== "production" ) {
 
 export default class CampgroundController {
 
+constructor(dependencies = {}) {
+    this.fetch = dependencies.fetch || fetch;
+    this.cloudinary = dependencies.cloudinary || cloudinary;
+}
+
 allCampgrounds = async function (req, res) {
     const campgrounds = await Campground.find({});
     const data = {MAPPLES_MAP_API_KEY:process.env.MAPPLES_MAP_API_KEY};
@@ -35,7 +40,7 @@ addCampgroundPost = async (req, res) => {
 
         const campground = new Campground(req.body.campground);
 
-        const response = await fetch(`https://api.geoapify.com/v1/geocode/search?postcode=${campground.postcode}&city=${campground.city}&state=${campground.state}&country=${campground.country}&format=json&apiKey=${process.env.GEOLOCATION_API_KEY}`);
+        const response = await this.fetch(`https://api.geoapify.com/v1/geocode/search?postcode=${campground.postcode}&city=${campground.city}&state=${campground.state}&country=${campground.country}&format=json&apiKey=${process.env.GEOLOCATION_API_KEY}`);
 
         const data = await response.json();  
 
@@ -47,8 +52,6 @@ addCampgroundPost = async (req, res) => {
 
         campground.geometry.type = "Point";
         campground.type = "Feature";
-
-
 
         campground.properties = { 
             "icon-size1": 0.55,
@@ -72,7 +75,6 @@ showCampgroundGet = async (req, res,) => {
         }
     }).populate('author');
 
-    
     res.render('campgrounds/show.ejs', { campground:campground });
 };
 
@@ -95,7 +97,7 @@ editCampgroundPut = async (req, res) => {
 
     if(req.body.deleteImages){
         for(let filename of req.body.deleteImages){
-            await cloudinary.uploader.destroy(filename);
+            await this.cloudinary.uploader.destroy(filename);
         }
         await campground.updateOne({ $pull:{images:{filename:{$in:req.body.deleteImages}}}});
     }
