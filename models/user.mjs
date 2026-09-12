@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
 import passportLocalMonoose from 'passport-local-mongoose';
+import joi from 'joi';
+
+const Joi = joi;
 
 const userSchema = new mongoose.Schema({
     gmail:{
