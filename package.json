@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node index.mjs",
-    "test": "node --test"
+    "test": "node --test",
+    "test:coverage": "node --experimental-test-coverage --test-coverage-lines=100 --test-coverage-functions=100 --test-coverage-branches=100 --test-coverage-include='models/**' --test-coverage-include='controler/**' --test-coverage-include='middlewares/**'"
   },
   "author": "",
   "license": "ISC",
