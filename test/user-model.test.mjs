@@ -8,11 +8,29 @@ const validUser = {
   password: 'secret123'
 };
 
-test('user validation currently exposes the Joi dependency bug', () => {
-  assert.throws(
-    () => forValidationUser(validUser),
-    ReferenceError
-  );
+test('user validation accepts valid input', () => {
+  const { error, value } = forValidationUser(validUser);
+
+  assert.equal(error, undefined);
+  assert.equal(value.username, 'campuser');
+  assert.equal(value.gmail, 'campuser@example.com');
+});
+
+test('user validation rejects missing required fields', () => {
+  const { error } = forValidationUser({ username: 'campuser' });
+
+  assert.ok(error);
+  assert.match(error.message, /gmail|required/i);
+});
+
+test('user validation rejects an empty username', () => {
+  const { error } = forValidationUser({
+    ...validUser,
+    username: ''
+  });
+
+  assert.ok(error);
+  assert.match(error.message, /username|required/i);
 });
 
 test('user schema requires gmail', () => {
